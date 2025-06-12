@@ -43,7 +43,8 @@ class BPETokenizer:
     def _get_most_freq_adj_pair(self):
 
         pair_counts = defaultdict(int)
-
+        
+        # get pair count of adjacent tokens in a word
         for word in self.words:
             for i in range(len(word) - 1):
                 pair = (word[i], word[i+1])
@@ -52,7 +53,7 @@ class BPETokenizer:
         if not pair_counts:
             return None
 
-        pair = max(pair_counts, key = pair_counts.get)
+        pair = max(pair_counts, key = pair_counts.get) # max count pair
 
         if pair_counts[pair] > 0:
             return pair
@@ -71,7 +72,7 @@ class BPETokenizer:
         # print(f'words = {self.words}')
 
         merge_count = 0
-        while(len(self.vocab) < self.vocab_size and merge_count < self.merge_count):
+        while(len(self.vocab) < self.vocab_size and merge_count < self.merge_count): # call merge multiple times till vocab size is reached
             pair = self._get_most_freq_adj_pair() # pair of tokens to merge in this step
             if pair:
                 self._merge(pair)
@@ -91,7 +92,7 @@ class BPETokenizer:
         # print(f"Final vocab size = {len(self.vocab)}")
         # print(f'Final merge count = {merge_count}')
 
-    def _merge(self, pair):
+    def _merge(self, pair): # given the most freq pair, merge them in words wherever present
         first, second = pair
         for k in range(len(self.words)):
             word = self.words[k]
@@ -99,8 +100,8 @@ class BPETokenizer:
 
             i=0
             while(i < len(word) - 1):
-                if word[i] == first and word[i+1] == second:
-                    new_word.append(first + second)
+                if word[i] == first and word[i+1] == second: # check if this pair is the most freq pair
+                    new_word.append(first + second) # merging two tokens into one
                     i += 2
                 else:
                     new_word.append(word[i])
@@ -114,7 +115,7 @@ class BPETokenizer:
         words = self._preprocess(text)
         tokens = []
         for word in words:
-            tokenized_word = self._apply_merges(word)
+            tokenized_word = self._apply_merges(word) # for merging new tokens outside of vocab
             tokens += tokenized_word
             # tokens += [word.replace('Ġ', '') for word in tokenized_word]
 
@@ -132,7 +133,7 @@ class BPETokenizer:
                 j = i + 1
                 ext_token = token
                 while(j < len(word)):
-                    ext_token = ext_token + word[j]
+                    ext_token = ext_token + word[j] # extended token by concat of adj chars
                     if ext_token in self.vocab:
                         token = ext_token
                         i=j
@@ -158,10 +159,10 @@ class BPETokenizer:
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(self.vocab, f)
 
-    def _encode(self, tokens):
+    def _encode(self, tokens): # convert tokens into ids ie: index in vocab
         return [self.vocab.index(token) for token in tokens]
     
-    def decode(self, tokens):
+    def decode(self, tokens): # convert tokens into text
         ids = tokens.ids
         text = ''
         for i, index in enumerate(ids):
@@ -170,3 +171,6 @@ class BPETokenizer:
             else:
                 text += self.vocab[index].replace('Ġ', ' ')
         return text
+    
+    def get_pad_id(self):
+        return self.vocab.index('<PAD>')

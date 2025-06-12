@@ -7,7 +7,7 @@ class BERTClassifier(nn.Module):
 
         self.hparams = {
             'vocab_size': vocab_size,
-            'embed_dim': hidden_dim,
+            'embed_dim': embed_dim,
             'hidden_dim': hidden_dim,
             'num_heads': num_heads,
             'num_layers': num_layers,
@@ -38,10 +38,9 @@ class BERTClassifier(nn.Module):
         pos_embed = self.position_embedding(pos_ids)
         x = token_embed + pos_embed
 
-        attn_mask = attention_mask == 0
-
+        attn_mask = attention_mask == 0 # pytorch expects a mask of true where padding is present
         encoded = self.encoder(x, src_key_padding_mask = attn_mask)
-        cls_rep = encoded[:, 0, :]
+        cls_rep = encoded[:, 0, :] # classfication representation token, shape: (batch_size, seq_len, embed_dim)
 
         output = self.classifier(cls_rep)
 

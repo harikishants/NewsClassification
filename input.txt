@@ -1,0 +1,5 @@
+We’re not automating workers, we’re augmenting them,” the executives would tell me. “Our AI tools won’t destroy jobs. They’ll be helpful assistants that will free workers from mundane drudgery.”
+
+Of course, lines like those — which were often intended to reassure nervous workers and give cover to corporate automation plans — said more about the limitations of the technology than the motives of the executives. Back then, AI simply wasn’t good enough to automate most jobs, and it certainly wasn’t capable of replacing college-educated workers in white-collar industries like tech, consulting and finance.
+
+That is starting to change. Some of today’s AI systems can write software, produce detailed research reports and solve complex math and science problems. Newer AI “agents” are capable of carrying out long sequences of tasks and checking their own work, the way a human would. And while these systems still fall short of humans in many areas, some experts are worried that a recent uptick in unemployment for college graduates is a sign that companies are already using AI as a substitute for some entry-level workers.
