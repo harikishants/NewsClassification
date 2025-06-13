@@ -2,13 +2,9 @@
 __pycache__/
 
 # Data & Models
-*.csv
 *.tsv
 *.json
 *.zip
 *.tar.gz
 *.h5
 *.pt
-checkpoints/
-data/
-vocab/
