@@ -1,3 +1,6 @@
+import warnings
+warnings.filterwarnings('ignore')
+
 import torch
 
 from tokenizer import BPETokenizer
@@ -7,7 +10,7 @@ from train import train_model, load_model
 def classify_news(sentence, model_path):
 
     tokenizer = BPETokenizer(vocab_file='vocab/vocab_final')
-    model, optimizer, epoch, accuracy, hyperparams = load_model(BERTClassifier, torch.optim.AdamW, path=model_path, device='cuda')
+    model, optimizer, epoch, accuracy, hyperparams = load_model(BERTClassifier, torch.optim.AdamW, file_path=model_path, device='cuda')
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.eval()
     model.to(device)
